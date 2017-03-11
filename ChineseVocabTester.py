@@ -1,5 +1,6 @@
 import random
 
+global words
 words = { 'good; fine':  ['hǎo'],
           'you':  ['nǐ'],
           'How are you?':  ['nǐ hǎo ma?'],
@@ -20,10 +21,14 @@ words = { 'good; fine':  ['hǎo'],
 global word
 word = random.sample(list(words),1)[0]
 
-def test(): # sample random word
+def reset():
     global word
     word = random.sample(list(words),1)[0]
+
+def english(): # sample random word
+    global word
     print(word)
 
-def check(): # display pinyin word
+def chinese(): # display pinyin word
+    global word, words
     print(words[word][0])
