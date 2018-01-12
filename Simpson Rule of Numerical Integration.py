@@ -18,7 +18,7 @@ def area(a, b, function, steps=1024.0): # use Simpson's rule to estimate area un
         + function(segs[i+1]))
     return area
 
-def plot_area(a, b, function, steps=1024.0):
+def plot_area(a, b, function, steps=1024.0): # plot the integrated area on a graph
     
     x = np.arange(-5,5,0.01)
     y = []
@@ -26,11 +26,11 @@ def plot_area(a, b, function, steps=1024.0):
         y.append(function(x[i]))
     approx_area = area(a, b, function, steps)
     pylab.plot(x,y,linewidth='2.5', label='6000 K')
-    pylab.plot([-5,5],[0,0],linewidth='1.0',color='k') # x-axis
-    pylab.plot([0,0],[-5,5],linewidth='1.0',color='k') # y-axis
+    pylab.plot([-5,5],[0,0],linewidth='1.0',color='k') # draw x-axis
+    pylab.plot([0,0],[-5,5],linewidth='1.0',color='k') # draw y-axis
     # sloice = x[x.index(a):x.index(b)]
-    pylab.fill(x[550:650],y[550:650],color='0.8')
-    pylab.fill([ x[550], x[550], x[650], x[650] ],[ 0, y[550], y[649], 0 ],
+    pylab.fill(x[550:650],y[550:650],color='0.8') # fill integrated region
+    pylab.fill([ x[550], x[550], x[650], x[650] ],[ 0, y[550], y[649], 0 ], 
                color='0.8')
     pylab.text(0.75,0.75, 'A: ' + str(round(approx_area, 4)), fontsize=8)
     
@@ -41,7 +41,7 @@ def plot_area(a, b, function, steps=1024.0):
     pylab.grid()
     pylab.show()
     
-def plot():
+def plot(): # plotting demo
     plot_area(0.5,1.5,cubic,steps=1024.0)
 
 def cubic(x):
