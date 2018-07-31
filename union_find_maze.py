@@ -24,19 +24,28 @@ class union_find(object):
         
         c = (found_a+found_b)[:]
         
+        print("Found a: ",found_a)
+        print("Found b: ",found_b)
+        
         self.sets.remove(found_a)
-        self.sets.remove(found_b)
+        if found_a != found_b:
+            self.sets.remove(found_b)
         
         self.sets.append(c)
     
     def find(self, e):
         for i in range(len(self.sets)):
-            for j in range(len(self.sets[i])):
-                print("e: ", e)
-                print("other stuff: ", self.sets[i][j])
-                if e == self.sets[i][j]:
-                    return self.sets[i]
+            if e in self.sets[i]:
+                return self.sets[i]
         return False
+    
+class union_find_edge(union_find):
+    def make_set(self, e):
+        reverse_e = (e[1],e[0])
+        if e not in self.sets and reverse_e not in self.sets:
+            self.sets.append(e)
+            
+
 
 '''
 u = union_find()
@@ -55,8 +64,12 @@ def gen_maze(n): # only works for perfect squares! Do not use anything else!
     # a = np.ones((n,n))
     a = np.arange(0,n).reshape(int(np.sqrt(n)),int(np.sqrt(n)))
     
-    e = union_find()        # edge list
-    r = union_find()
+    e = union_find_edge()        # full edge list
+    r = union_find_edge()        # removed edge list
+    d = union_find()             # nums
+    
+    for i in range(n):
+        d.make_set([i])
     
     for i in range(len(a)):
         for j in range(len(a[i])):
@@ -71,20 +84,19 @@ def gen_maze(n): # only works for perfect squares! Do not use anything else!
                 
     edge_list = e.sets
     
-    print(r.sets)
-    print(len(r.sets))
+    # print(edge_list)
     
     while (len(r.sets) < n-1):
         new_edge = rand.choice(edge_list)
-        print(new_edge)
-        x=e.find(new_edge[0])
-        y=e.find(new_edge[1])
+        x=new_edge[0]
+        y=new_edge[1]
         if x != y:
-            print('t')
-            e.union(x,y)
+            d.union(x,y)
             r.make_set(new_edge)
             edge_list.remove(new_edge)
         else:
             print('f')
-    
+
+
+
     return r    
